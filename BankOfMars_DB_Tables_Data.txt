@@ -1,0 +1,97 @@
+I am creating below 3 tables  
+1) "BankCustomer_Profile" 
+2) "BankCustomer_Account" and 
+3) "BankCustomer_Transactions" 
+
+CREATE TABLE dev.public.BankCustomer_Profile (
+    CustomerID       VARCHAR(20) PRIMARY KEY,
+    FirstName        VARCHAR(50),
+    LastName         VARCHAR(50),
+    DateOfBirth      DATE,
+    Email            VARCHAR(100),
+    PhoneNumber      VARCHAR(20),
+    Address          VARCHAR(200)
+);
+
+SELECT * FROM svv_columns ;
+
+INSERT INTO dev.public.BankCustomer_Profile VALUES
+('CUST001', 'Nova', 'Blasterbeam', '2009-06-15', 'zorgon.b@marsmail.mr', '001-SPACE-9999', '42 Crater Loop, Olympus Mons District'),
+('CUST002', 'Xyla', 'Nebulon', '1990-09-21', 'xyla.neb@redplanet.org', '002-MARS-8888', '7 Lava Tube Blvd, Valles Marineris Colony'),
+('CUST003', 'Glorp', 'Squidworth', '2003-03-05', 'glorp.s@tentaclebank.mr', '003-ALIEN-7777', '99 Slime Street, Tharsis Ridge'),
+('CUST004', 'Bleep', 'Zark', '2002-11-30', 'bleep.z@intergalactic.net', '004-ZETA-6666', '13 Meteorite Way, Cydonia Sector'),
+('CUST005', 'Zorgon', 'Stardust', '1995-04-18', 'nova.s@cosmobank.mr', '005-PLUTO-5555', '88 Dome Plaza, Hellas Basin'),
+('CUST006', 'Quark', 'Photon', '2001-12-25', 'quark.p@quantumbank.mr', '006-QUASAR-4444', '101 Quantum Crescent, Borealis Heights');
+
+SELECT * FROM  dev.public.BankCustomer_Profile;
+
+CREATE TABLE dev.public.BankCustomer_Account (
+    AccountID        VARCHAR(20) PRIMARY KEY,
+    CustomerID       VARCHAR(20),
+    AccountType      VARCHAR(20),
+    Balance          DECIMAL(12,2),
+    OpenDate         DATE,
+    Status           VARCHAR(20),
+    FOREIGN KEY (CustomerID) REFERENCES BankCustomer_Profile(CustomerID)
+);
+
+SELECT * FROM svv_columns ;
+
+INSERT INTO dev.public.BankCustomer_Account VALUES
+('ACC001', 'CUST001', 'Savings', 2500.75, '2021-01-10', 'Active'),
+('ACC002', 'CUST001', 'Checking', 1500.00, '2021-02-15', 'Active'),
+('ACC003', 'CUST002', 'Savings', 5000.25, '2020-05-12', 'Active'),
+('ACC004', 'CUST003', 'Checking', 1200.50, '2022-07-01', 'Inactive'),
+('ACC005', 'CUST004', 'Savings', 3400.00, '2021-10-10', 'Active'),
+('ACC006', 'CUST005', 'Checking', 760.45, '2023-03-19', 'Active');
+
+SELECT * FROM  dev.public.BankCustomer_Account; 
+
+CREATE TABLE dev.public.BankCustomer_Transactions (
+    TransactionID    VARCHAR(25) PRIMARY KEY,
+    AccountID        VARCHAR(20),
+    TransactionDate  TIMESTAMP,
+    Amount           DECIMAL(10,2),
+    TransactionType  VARCHAR(20),
+    Description      VARCHAR(200),
+    FOREIGN KEY (AccountID) REFERENCES BankCustomer_Account(AccountID)
+);
+
+
+
+SELECT * FROM svv_columns ;
+
+INSERT INTO dev.public.BankCustomer_Transactions VALUES
+('TXN1001', 'ACC001', '2025-07-15 10:00:00', 100.00, 'Deposit', 'ATM Deposit'),
+('TXN1002', 'ACC001', '2025-07-16 14:30:00', -50.00, 'Withdrawal', 'ATM Withdrawal'),
+('TXN1003', 'ACC003', '2025-07-17 09:20:00', -1000.00, 'Wire1', 'Wire Transfer to a Domestic account'),
+('TXN1004', 'ACC002', '2025-07-18 11:45:00', 200.00, 'Deposit', 'Salary Credit'),
+('TXN1005', 'ACC004', '2025-07-19 16:00:00', -150.00, 'Bill Payment', 'Electricity Bill'),
+('TXN1006', 'ACC005', '2025-07-20 12:15:00', 300.00, 'Deposit', 'Mobile Check Deposit'),
+('TXN1007', 'ACC006', '2025-07-21 09:00:00', -75.25, 'Withdrawal', 'ATM Withdrawal'),
+('TXN1008', 'ACC003', '2025-07-21 13:45:00', 500.00, 'Deposit', 'Interest Payment'),
+('TXN1009', 'ACC002', '2025-07-22 10:10:00', -200.00, 'Transfer', 'Transfer to Savings'),
+('TXN1010', 'ACC005', '2025-07-22 17:30:00', -120.00, 'Bill Payment', 'Internet Service'),
+('TXN1011', 'ACC006', '2025-07-23 08:20:00', 1000.00, 'Deposit', 'Paycheck Deposit'),
+('TXN1012', 'ACC006', '2025-07-29 09:00:00', -200075.25, 'Wire2', 'Wire Transfer to a Foreign account'),
+('TXN1013', 'ACC001', '2025-07-23 19:10:00', -90.00, 'Purchase', 'Grocery Store Purchase');
+
+SELECT * FROM  dev.public.BankCustomer_Transactions; 
+
+select * from SVV_USER_INFO; 
+CREATE USER "IAMR:<..BedrockRole..>" WITH PASSWORD DISABLE;
+select * from SVV_USER_INFO; 
+GRANT SELECT ON ALL TABLES IN SCHEMA dev.public TO "IAMR:<..BedrockRole..>"; 
+SELECT * FROM sys_load_error_detail;  [ this is to debug if any errors. This table should contain some clue on why error ]
+
+
+==========
+
+What is SQL query to (In Amazon Redshift) to view the table definition.
+
+SELECT column_name, data_type, character_maximum_length, is_nullable
+FROM svv_columns
+WHERE table_schema = 'dev.public'
+  AND table_name = 'BankCustomer_Profile'
+ORDER BY ordinal_position;
+
