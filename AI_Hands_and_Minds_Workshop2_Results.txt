@@ -1,0 +1,13 @@
+
+List all the customers who are still teenagers
+Ans: 'CUST001', 'Nova', 'Blasterbeam', '2009-06-15', 'zorgon.b@marsmail.mr', '001-SPACE-9999', '42 Crater Loop, Olympus Mons District'
+ 
+Show me all the Inactive accounts and its owner details
+('ACC004', 'CUST003', 'Checking', 1200.50, '2022-07-01', 'Inactive'),
+('CUST003', 'Glorp', 'Squidworth', '2003-03-05', 'glorp.s@tentaclebank.mr', '003-ALIEN-7777', '99 Slime Street, Tharsis Ridge'),
+
+
+Show me all the transactions occurred within last 2 weeks and its customer names
+('TXN1012', 'ACC006', '2025-07-29 09:00:00', -200075.25, 'Wire2', 'Wire Transfer to a Foreign account'),
+('ACC006', 'CUST005', 'Checking', 760.45, '2023-03-19', 'Active');
+('CUST005', 'Zorgon', 'Stardust', '1995-04-18', 'nova.s@cosmobank.mr', '005-PLUTO-5555', '88 Dome Plaza, Hellas Basin'),
